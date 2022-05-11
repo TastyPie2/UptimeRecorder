@@ -16,18 +16,34 @@ namespace UptimeRecorder.Backend
 
         public void EndSession()
         {
-            var session = _sessionPointer?.Get() ?? throw new Exception("Session already ended.");
+            lock (_sessionPointer)
+            {
+                var session = _sessionPointer?.Get() ?? throw new Exception("Session already ended.");
 
-            session.StopDateTime = DateTime.Now;
+                session.StopDateTime = DateTime.Now;
 
-            _sessionPointer.Set(session);
-            _sessionPointer.Move(TaskHelpers.sessionsFolder);
-            _sessionPointer = null;
+                _sessionPointer.Set(session);
+                _sessionPointer.Move(TaskHelpers.sessionsFolder);
+                _sessionPointer = null;
+            }
         }
 
+        public void UpdateSessionEndTime()
+        {
+            if (_sessionPointer == null)
+                return;
 
+            lock (_sessionPointer)
+            {
 
-        List<JsonFileDataPointer<Session>> GetSessions()
+                var session = _sessionPointer.Get();
+                session.StopDateTime = DateTime.Now;
+
+                _sessionPointer.Set(session);
+            }
+        }
+
+        public List<JsonFileDataPointer<Session>> GetSessions()
         {
             if (!Directory.Exists(TaskHelpers.sessionsFolder))
                 return new List<JsonFileDataPointer<Session>>();

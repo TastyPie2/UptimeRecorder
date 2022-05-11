@@ -7,8 +7,6 @@ namespace UptimeRecorder.Backend
 
         public Guid Id { get; set; } = Guid.NewGuid();
 
-        public DateTimeOffset DateTimeOffset { get; set; } = DateTimeOffset.Now;
-
         public DateTime StartDateTime { get; set; }
 
         public DateTime? StopDateTime { get; set; }
