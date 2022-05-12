@@ -43,6 +43,12 @@ namespace UptimeRecorder.Backend
 
                 var session = _sessionPointer.Get();
 
+                if(session == null)
+                {
+                    session = new Session();
+                    _sessionPointer.Set(session);
+                }
+
                 session.StartDateTime = DateTime.Now;
 
                 _sessionPointer.Set(session);

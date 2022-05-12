@@ -51,7 +51,7 @@ namespace UptimeRecorder.Backend
 
             var sessions = new List<JsonFileDataPointer<Session>>();
 
-            DirectoryUtils.GetDirectoriesRecursiveParallel(TaskHelpers.sessionsFolder)
+            FileUtils.GetFilesRecursiveParallel(TaskHelpers.sessionsFolder)
                 .ForEach(i => sessions.Add(new JsonFileDataPointer<Session>(i)));
 
             return sessions;
