@@ -35,7 +35,19 @@ namespace UptimeView
             var runtime = RuntimeTasks.Instance;
 
             var sessions = runtime.GetSessions().Select(s => s.Get()).Where(i => i.StartDateTime.DayOfYear / 7 == weekNumber || i.StopDateTime.Value.DayOfYear  / 7 == weekNumber).ToList();
-            UptimeDataGrid.ItemsSource = sessions;
+            var weekSumary = new UptimeWeekData();
+            
+            //Weekdays
+            weekSumary.weekDays.Add(new UptimeDayInfo(sessions.Where(i => i.StartDateTime.DayOfWeek == DayOfWeek.Monday || i.StopDateTime.Value.DayOfWeek == DayOfWeek.Monday).ToList()));
+            weekSumary.weekDays.Add(new UptimeDayInfo(sessions.Where(i => i.StartDateTime.DayOfWeek == DayOfWeek.Tuesday || i.StopDateTime.Value.DayOfWeek == DayOfWeek.Tuesday).ToList()));
+            weekSumary.weekDays.Add(new UptimeDayInfo(sessions.Where(i => i.StartDateTime.DayOfWeek == DayOfWeek.Wednesday || i.StopDateTime.Value.DayOfWeek == DayOfWeek.Wednesday).ToList()));
+            weekSumary.weekDays.Add(new UptimeDayInfo(sessions.Where(i => i.StartDateTime.DayOfWeek == DayOfWeek.Thursday || i.StopDateTime.Value.DayOfWeek == DayOfWeek.Thursday).ToList()));
+            weekSumary.weekDays.Add(new UptimeDayInfo(sessions.Where(i => i.StartDateTime.DayOfWeek == DayOfWeek.Friday || i.StopDateTime.Value.DayOfWeek == DayOfWeek.Friday).ToList()));
+            weekSumary.weekDays.Add(new UptimeDayInfo(sessions.Where(i => i.StartDateTime.DayOfWeek == DayOfWeek.Saturday || i.StopDateTime.Value.DayOfWeek == DayOfWeek.Saturday).ToList()));
+            weekSumary.weekDays.Add(new UptimeDayInfo(sessions.Where(i => i.StartDateTime.DayOfWeek == DayOfWeek.Sunday || i.StopDateTime.Value.DayOfWeek == DayOfWeek.Sunday).ToList()));
+
+
+            UptimeDataGrid.ItemsSource = new List<UptimeWeekData>() { weekSumary };
         }
 
         private void DataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)

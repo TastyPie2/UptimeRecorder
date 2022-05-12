@@ -10,7 +10,11 @@ namespace UptimeView
 {
     internal class UptimeWeekData
     {
-        public List<UptimeDayInfo> weekDays { get; set; }
+        public List<UptimeDayInfo> weekDays { get; set; } = new();
+
+        public int Uptime { get; set; }
+
+
     }
 
     internal class UptimeDayInfo
